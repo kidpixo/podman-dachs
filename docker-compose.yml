@@ -4,17 +4,23 @@ services:
 
   dachs:
       container_name: dachs
-      image: gavodachs/dachs:latest
+      image: docker.io/gavodachs/dachs:latest
       tty: true
       network_mode: 'bridge'
       ports:
         - 8080:8080
       volumes:
-        - "${DACHS_LOGS_PATH:-./tmp/logs/dachs}:/var/gavo/logs"
+        # persistent dachs log data
+        - "${DACHS_LOGS_PATH:-../containers-storage/logs/dachs}:/var/gavo/logs"
+        # # persistent postgres data
+        # - ../docker-storage/postgres:
+        - "${DACHS_POSTGRES_PATH:-../containers-storage/postgresql}:/var/lib/postgresql/data"
+        # persistent RD data
+        - "${DACHS_DATA_PATH:-../containers-input}:/var/gavo/inputs"
 
   awstats:
       container_name: awstats
-      image: gavodachs/awstats:latest
+      image: docker.io/gavodachs/awstats:latest
       depends_on:
         - dachs
       tty: true
@@ -22,4 +28,4 @@ services:
       ports:
         - 80:80
       volumes:
-        - "${DACHS_LOGS_PATH:-./tmp/logs/dachs}:/var/gavo/logs:ro"
+      -       - "${DACHS_LOGS_PATH:-../containers-storage/logs/dachs}:/var/gavo/logs:ro"
