@@ -27,5 +27,5 @@ services:
       network_mode: 'bridge'
       ports:
         - 80:80
-      volumes:
-      -       - "${DACHS_LOGS_PATH:-../containers-storage/logs/dachs}:/var/gavo/logs:ro"
+      volumese
+        - "${DACHS_LOGS_PATH:-../containers-storage/logs/dachs}:/var/gavo/logs:ro"
