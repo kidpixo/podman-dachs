@@ -21,7 +21,7 @@ echo ${MAGENTA}DACH_AWSTATS_IMAGE_VERSION${RESET}=$DACH_AWSTATS_IMAGE_VERSION
 echo
 echo "${GREEN}${BOLD}Persistent data locations${RESET}"
 # persistent dachs log data
-DACHS_LOGS_PATH=${DACHS_LOGS_PATH:-../containers-storage/logs/dachs}
+DACHS_LOGS_PATH=${DACHS_LOGS_PATH:-../containers-storage/logs}
 # persistent postgres data
 DACHS_POSTGRES_PATH=${DACHS_POSTGRES_PATH:-../containers-storage/postgresql}
 # persistent RD data

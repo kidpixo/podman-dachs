@@ -11,7 +11,7 @@ services:
         - 8080:8080
       volumes:
         # persistent dachs log data
-        - "${DACHS_LOGS_PATH:-../containers-storage/logs/dachs}:/var/gavo/logs"
+        - "${DACHS_LOGS_PATH:-../containers-storage/logs}:/var/gavo/logs"
         # # persistent postgres data
         # - ../docker-storage/postgres:
         - "${DACHS_POSTGRES_PATH:-../containers-storage/postgresql}:/var/lib/postgresql/data"
@@ -27,5 +27,5 @@ services:
       network_mode: 'bridge'
       ports:
         - 80:80
-      volumese
-        - "${DACHS_LOGS_PATH:-../containers-storage/logs/dachs}:/var/gavo/logs:ro"
+      volumes:
+        - "${DACHS_LOGS_PATH:-../containers-storage/logs}:/var/gavo/logs:ro"
