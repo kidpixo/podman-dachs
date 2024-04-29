@@ -1,5 +1,5 @@
 # DaCHS on Docker
-[![Build Status](https://travis-ci.com/gavodachs/docker-dachs.svg?branch=master)](https://travis-ci.com/gavodachs/docker-dachs)
+[![Build Status](https://app.travis-ci.com/gavodachs/docker-dachs.svg?branch=master)](https://app.travis-ci.com/gavodachs/docker-dachs)
 
 > ###### Update:
 > Recently the Dachs-on-Docker images repository -- on DockerHub -- have been
@@ -8,18 +8,14 @@
 > you see a `chbrandt/dachs`, read, change it to `gavodachs/dachs`.
 
 Here you'll find recipes for building and running [GAVO DaCHS](http://docs.g-vo.org/DaCHS/)
-in Docker containers.
+in Docker containers (https://hub.docker.com/u/gavodachs).
 
-These files build the images available in DockerHub's [_gavodachs_][gavodachs] repositories.
-
-[gavodachs]: https://hub.docker.com/u/gavodachs
+ToC:
 
 - [Quick Dachs](#quick-dachs)
-    1. [Run it](#run-it)
-    1. [Build it](#build-it)
-    1. [Images](#images)
-- Other pages:
-    * [docs/](docs/)
+    1. [Run a published image](#run-a-published-image)
+    1. [Build your own image](#build-your-own-image)
+    1. [Container flavors](#container-flavors)
 
 
 ## Quick Dachs
@@ -30,24 +26,74 @@ By default, Dachs provides its (api) endpoints at port `8080` on `localhost`.
 
 > For fine details about DaCHS, refer to the official docs: [soft.g-vo.org](https://soft.g-vo.org/dachs).
 
-### Run it
+
+### Run a published image
 If all you wanna do now is to see _Dachs-on-Docker_ running:
 
 ```bash
 [~/]$ docker run -it -p 8080:8080 --name dachs gavodachs/dachs
+```
 
-# some initialization output (...)
+Which should print a help/intro message like the following, and land you in a terminal session _inside_ the container:
 
-[root@10dd4547e]$ service postgresql start
+```
+==========================================================
+This image provides dachs & postgresql bundled together,
+same scenario as you would have if installed the package,
+gavodachs-server, on your own linux box
+
+To start DaCHS (and Postgres), type:
+--------------------
+ $ /dachs.sh start
+--------------------
+It is just a convenience script to start/stop the services.
+See its '--help' for further information about its usage.
+
+
+After starting DaCHS, you should see it working at:
+ - http://localhost[:8080]
+
+
+Use 'gavo/dachs' as usual:
+--------------------
+ $ dachs --help
+--------------------
+DaCHS documents are available at:
+ - http://dachs-doc.rtfd.io/tutorial.html
+
+
+DaCHS version: 2.7.3
+PSQL version: 13.11
+==========================================================
+
+root@a3035ad36500:/$
+```
+
+At this point, you can run and use DaCHS as you would in any "normal" operating system.
+For instance, you can start DaCHS and PostgreSQL in _debug_ mode:
+
+```bash
+root@a3035ad36500:/$ service postgresql start
 Starting PostgreSQL 13 database server: main.
-[root@10dd4547e]$
-[root@10dd4547e]$ dachs serve debug
+root@a3035ad36500:/$
+root@a3035ad36500:/$ dachs serve debug
 <date> [-] Log opened.
 <date> [-] Site starting on 8080
 <date> [-] Starting factory <twisted.web.server.Site object at 0x7fb33c844fd0>
 Starting VO server: dachs.
-
+(...)
 ```
+
+Or -- as per the help message (above) -- you can start Dachs service with `/dachs.sh start`:
+
+```bash
+root@a3035ad36500:/$ /dachs.sh start
+13/main (port 5432): down
+Starting PostgreSQL 13 database server: main.
+Starting VO server: dachs.
+root@a3035ad36500:/$ 
+```
+
 Docker `run` will instantiate the container and hand you a bash session from inside the container.
 Then we start Postgres to finally start Dachs (in `debug` mode to have it verbose).
 
@@ -56,46 +102,12 @@ Then we start Postgres to finally start Dachs (in `debug` mode to have it verbos
 
 
 You go to [http://localhost:8080](http://localhost:8080) and you should see Dachs frontpage:
+
 ![Landing page](docs/landing_page.png)
 
-And in the terminal, lines like the following should pop out in the terminal:
 
-```bash
-<date> [-] 172.17.0.1 - - [<date>] "GET / HTTP/1.1" 200 1221 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15"
-<date> [-] 172.17.0.1 - - [<date>] "GET /static/js/jquery-gavo.js HTTP/1.1" 200 66576 "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15"
-<date> [-] 172.17.0.1 - - [<date>] "GET /static/img/logo_medium.png HTTP/1.1" 200 48422 "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15"
-(...)
-```
-
-While this terminal is being used by `dachs` server we can open another terminal
-and attach to the same container (dachs):
-
-```bash
-[~/]$ docker exec -it dachs bash
-[root@10dd4547e]$
-[root@10dd4547e]$ # The services running, for example:
-[root@10dd4547e]$
-[root@10dd4547e]$ ps ax
-  PID TTY      STAT   TIME COMMAND
-    1 pts/0    Ss     0:00 /bin/bash --rcfile /help.sh
-   50 ?        Ss     0:00 /usr/lib/postgresql/13/bin/postgres -D /var/lib/postgresql/13/main -c config_file=/etc/postgresql/13/main/postgresql.conf
-   52 ?        Ss     0:00 postgres: 13/main: checkpointer
-   53 ?        Ss     0:00 postgres: 13/main: background writer
-   54 ?        Ss     0:00 postgres: 13/main: walwriter
-   55 ?        Ss     0:00 postgres: 13/main: autovacuum launcher
-   56 ?        Ss     0:00 postgres: 13/main: stats collector
-   57 ?        Ss     0:00 postgres: 13/main: logical replication launcher
-   75 pts/0    Sl+    0:01 /usr/bin/python3 /usr/bin/dachs serve debug
-   76 ?        Ss     0:00 postgres: 13/main: gavo gavo 127.0.0.1(53334) idle
-   78 ?        Ss     0:00 postgres: 13/main: gavo gavo 127.0.0.1(53338) idle
-  133 pts/1    Ss     0:00 bash
-  139 pts/1    R+     0:00 ps ax
-  [root@10dd4547e]$
-```
-
-
-### Build it
-Likewise, if you just want to build the latest `dachs` image, do:
+### Build your own image
+On the other hand, if you want to build your own iamge (the latest `dachs` image), you'll do:
 
 ```bash
 [~/]$ cd dockerfiles
@@ -104,25 +116,15 @@ Likewise, if you just want to build the latest `dachs` image, do:
 => => exporting layers
 => => writing image sha256:ddb02867...
 => => naming to docker.io/library/my_dachs
-
-[~/dockerfiles]$ docker run --rm my_dachs /help.sh
-
-==========================================================
-This image provides dachs & postgresql bundled together,
-
-(...)
-
-DaCHS version: 2.5
-PSQL version: 13.5
-==========================================================
-
-[~/dockerfiles]$
 ```
+
+This will create a new image -- `my_dachs` -- for you (you can check it with `docker images`).
+You can then run `my_dachs` as we did before in "[Run a published image](#run-a-published-image)".
 
 > For more details on _building_ images, go to [dockerfiles/README.md](dockerfiles/README.md)
 
 
-### Images
+### Container flavors
 The containers are built on top of Debian Bullseye image, which GAVO/DaCHS package
 is part of the _main_ (and _backports_) repository (current Dachs version: 2.3).
 For the `latest` images we use also GAVO repositories, where updates go first (current Dachs version: 2.5).
