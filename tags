@@ -59,6 +59,14 @@ Dachs-on-Docker Documentation	docs/README.md	/^# Dachs-on-Docker Documentation$/
 !_TAG_KIND_DESCRIPTION!Yaml	a,anchor	/anchors/
 !_TAG_ROLE_DESCRIPTION!Yaml!anchor	alias	/alias/
 !_TAG_PARSER_VERSION!Yaml	0.0	/current.age/
+!_TAG_KIND_DESCRIPTION!Sh	a,alias	/aliases/
+!_TAG_KIND_DESCRIPTION!Sh	f,function	/functions/
+!_TAG_KIND_DESCRIPTION!Sh	s,script	/script files/
+!_TAG_KIND_DESCRIPTION!Sh	h,heredoc	/label for here document/
+!_TAG_ROLE_DESCRIPTION!Sh!script	loaded	/loaded/
+!_TAG_ROLE_DESCRIPTION!Sh!heredoc	endmarker	/end marker/
+!_TAG_PARSER_VERSION!Sh	0.0	/current.age/
+dachs_run	dockerfiles/dachs/bin/dachs.sh	/^dachs_run() {$/;"	f
 !_TAG_KIND_DESCRIPTION!WindRes	d,dialog	/dialogs/
 !_TAG_KIND_DESCRIPTION!WindRes	m,menu	/menus/
 !_TAG_KIND_DESCRIPTION!WindRes	i,icon	/icons/
@@ -68,14 +76,6 @@ Dachs-on-Docker Documentation	docs/README.md	/^# Dachs-on-Docker Documentation$/
 !_TAG_KIND_DESCRIPTION!WindRes	v,version	/versions/
 !_TAG_KIND_DESCRIPTION!WindRes	a,accelerators	/accelerators/
 !_TAG_PARSER_VERSION!WindRes	0.0	/current.age/
-!_TAG_KIND_DESCRIPTION!Sh	a,alias	/aliases/
-!_TAG_KIND_DESCRIPTION!Sh	f,function	/functions/
-!_TAG_KIND_DESCRIPTION!Sh	s,script	/script files/
-!_TAG_KIND_DESCRIPTION!Sh	h,heredoc	/label for here document/
-!_TAG_ROLE_DESCRIPTION!Sh!script	loaded	/loaded/
-!_TAG_ROLE_DESCRIPTION!Sh!heredoc	endmarker	/end marker/
-!_TAG_PARSER_VERSION!Sh	0.0	/current.age/
-dachs_run	dockerfiles/dachs/bin/dachs.sh	/^dachs_run() {$/;"	f
 Dachs build	dockerfiles/dachs/README.md	/^# Dachs build$/;"	c
 TL;DR	dockerfiles/dachs/README.md	/^### TL;DR$/;"	S	chapter:Dachs build
 Debian/GAVO repositories	dockerfiles/dachs/README.md	/^## Debian\/GAVO repositories$/;"	s	chapter:Dachs build
@@ -92,7 +92,7 @@ Build compose	dockerfiles/README.md	/^## Build compose$/;"	s	chapter:Dachs-on-Do
 Environment variables	dockerfiles/README.md	/^## Environment variables$/;"	s	chapter:Dachs-on-Docker recipes
 DaCHS on Docker	README.md	/^# DaCHS on Docker$/;"	c
 Quick Dachs	README.md	/^## Quick Dachs$/;"	s	chapter:DaCHS on Docker
-Run it	README.md	/^### Run it$/;"	S	section:DaCHS on Docker""Quick Dachs
-Build it	README.md	/^### Build it$/;"	S	section:DaCHS on Docker""Quick Dachs
-Images	README.md	/^### Images$/;"	S	section:DaCHS on Docker""Quick Dachs
-Tags	README.md	/^#### Tags$/;"	t	subsection:DaCHS on Docker""Quick Dachs""Images
+Run a published image	README.md	/^### Run a published image$/;"	S	section:DaCHS on Docker""Quick Dachs
+Build your own image	README.md	/^### Build your own image$/;"	S	section:DaCHS on Docker""Quick Dachs
+Container flavors	README.md	/^### Container flavors$/;"	S	section:DaCHS on Docker""Quick Dachs
+Tags	README.md	/^#### Tags$/;"	t	subsection:DaCHS on Docker""Quick Dachs""Container flavors
