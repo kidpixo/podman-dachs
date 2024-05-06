@@ -31,5 +31,6 @@ services:
 
 networks:
   docker-dachs-net:
+    name: docker-dachs-net
     external: false
     driver: bridge
