@@ -49,16 +49,16 @@ podman run -d \
     -e TZ="Europe/Berlin" \
      -v ${DACHS_LOGS_PATH}:/var/gavo/logs \
      -v ${DACHS_DATA_PATH}:/var/gavo/inputs \
- docker.io/gavodachs/dachs:${DACHS_IMAGE_VERSION}
+ localhost/dlrdachs:${DACHS_IMAGE_VERSION}
 
     # --hostname dachs \
-podman run -d \
-    --name awstats \
-    --expose 80 \
-    --pod ${DACHS_PODNAME} \
-    --tty \
-    -e TZ="Europe/Berlin" \
-     -v ${DACHS_LOGS_PATH}:/var/gavo/logs:ro \
- docker.io/gavodachs/awstats:${DACH_AWSTATS_IMAGE_VERSION}
-
+# podman run -d \
+#     --name awstats \
+#     --expose 80 \
+#     --pod ${DACHS_PODNAME} \
+#     --tty \
+#     -e TZ="Europe/Berlin" \
+#      -v ${DACHS_LOGS_PATH}:/var/gavo/logs:ro \
+#  docker.io/gavodachs/awstats:${DACH_AWSTATS_IMAGE_VERSION}
+#
     # --hostname awstats \

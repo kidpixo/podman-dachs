@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  dachs:
+    # image: "docker.io/gavodachs/dachs:latest"
+    image: "localhost/dlrdachs:latest" 
+    container_name: dachs
+    expose:
+      - "8080"
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - ../containers-storage/logs:/var/gavo/logs
+      - ../containers-input:/var/gavo/inputs
+    hostname: dachs
+    networks:
+      - docker-dachs-net
+
+  awstats:
+    image: "docker.io/gavodachs/awstats:latest"
+    container_name: awstats
+    expose:
+      - "80"
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - ../containers-storage/logs:/var/gavo/logs:ro
+    hostname: awstats
+    networks:
+      - docker-dachs-net
+
+networks:
+  docker-dachs-net:
+    external: false
+    driver: bridge
